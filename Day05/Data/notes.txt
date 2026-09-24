@@ -1,0 +1,4 @@
+Hello Python is most popular languaage in AI field.  It uses simple, English-like syntax and indentation instead of braces.
+Code runs line by line through an interpreter, so you don’t need to compile it manually.
+You don’t have to declare variable types explicitly.
+Multi-purpose: Used for web development, data science, machine learning, AI, automation, scripting, game development, and more.

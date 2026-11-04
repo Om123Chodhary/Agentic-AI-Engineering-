@@ -1,0 +1,15 @@
+ML
+Basics: supervised, unsupervised, reinforcement, generalize.
+Preprocessing: missing/outliers, encoding, scaling, split X/y.
+Train/test: split, train, test, cross-validation.
+Bias/variance: underfit, overfit, balance, regularization/data.
+Regression: continuous, linear, MSE/MAE, R2/RMSE.
+Classification: categories, logistic, accuracy/precision/recall/F1, ROC-AUC.
+Regularization: Ridge L2, Lasso L1, Elastic Net, reduce overfit.
+Trees/ensembles: decision tree, random forest, boosting, XGBoost/LightGBM.
+Clustering: K-means, hierarchical, DBSCAN, silhouette.
+Dim reduction: PCA, t-SNE/UMAP, fewer dims, noise/computation.
+Metrics: classification, regression, choose by problem, baseline.
+Tuning: grid, random, Bayesian, CV/validation.
+Neural nets: layers, activation, backprop, CNN/RNN/Transformer.
+MLOps/ethics: deploy, monitor drift, version, fairness/privacy/bias.

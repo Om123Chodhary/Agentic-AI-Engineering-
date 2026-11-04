@@ -1,0 +1,12 @@
+SQL
+SELECT/WHERE: choose columns, table, filter rows, AND/OR/NOT.
+ORDER/LIMIT: sort ASC/DESC, limit rows, top-N.
+GROUP BY: COUNT/SUM/AVG/MIN/MAX, GROUP BY, HAVING, WHERE before grouping.
+JOINs: INNER, LEFT, RIGHT, FULL.
+Subqueries/CTEs: query inside query, WITH name AS, readability, recursive.
+Window: ROW_NUMBER/RANK/LAG/LEAD, OVER(PARTITION BY... ORDER BY...), running totals.
+CASE/NULL: CASE WHEN, NULL unknown, IS NULL, COALESCE.
+DML: INSERT, UPDATE, DELETE, always WHERE.
+DDL: CREATE/ALTER/DROP, PK, FK, UNIQUE/NOT NULL/CHECK.
+Indexes/transactions: speed reads, slow writes, BEGIN/COMMIT/ROLLBACK.
+Views/sets: saved query, UNION, INTERSECT, EXCEPT.

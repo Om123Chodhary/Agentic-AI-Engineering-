@@ -1,0 +1,11 @@
+PYTHON
+Basics: variables, types, operators, print/input, indentation.
+Control flow: if/elif/else, for, while, break/continue/pass.
+Functions: def, parameters, return, scope, lambda.
+Data structures: list, tuple, dict, set.
+Comprehensions: list/dict/set, conditions.
+Modules: import, pip, venv, requirements.txt.
+Files/errors: open, with, try/except/finally, raise.
+OOP: class, init, inheritance, encapsulation.
+Iterators/generators: iter/next, yield, lazy, memory.
+Libraries: NumPy arrays, Pandas DataFrame, Matplotlib plots, Scikit-learn fit/predict.

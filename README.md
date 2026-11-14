@@ -25,6 +25,13 @@ Instead of just copy-pasting tutorials using frameworks like LangChain or CrewAI
 
 ---
 
+<div align="center">
+  <img src="22-Day Agentic AI Roadmap.png" alt="Agentic AI Engineering Roadmap" width="100%" />
+</div>
+
+<br />
+
+# 🚀 Agentic AI Engineering: The 22-Day Production Mastery
 ## 🏗️ The 4 Pillars of this Journey
 
 Throughout these 22 days, every line of code was written with 4 core engineering principles in mind:

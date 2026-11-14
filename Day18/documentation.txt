@@ -1,0 +1,101 @@
+🕵️ Day 18: Building a Custom AI Research Agent (From Scratch)
+🎯 Objective
+The goal of Day 18 was to build a fully autonomous AI Research Agent from scratch using pure Python (without relying heavily on frameworks like LangGraph or CrewAI). The agent takes a broad research question, creates a plan, searches the web, reads articles, saves structured notes, verifies the evidence, and finally synthesizes everything into a professional Markdown report.
+
+🏗️ The Complete Agent Architecture
+The pipeline consists of 5 major components:
+
+The Planner: Creates a structured to-do list for the research.
+
+The Agent Loop: The core while/for loop that manages LLM decisions and tool executions.
+
+The Tools: Python functions that perform external actions (Web Search, Web Scraping).
+
+The Verifier: An "LLM-as-a-Judge" that checks if the evidence supports the finding.
+
+The Synthesizer: Converts raw verified notes into a human-readable report.
+
+🛠️ Step-by-Step Implementation
+1. Building the Tools (tools.py)
+We built two core web tools using requests and BeautifulSoup:
+
+search_web(query, max_results): Scrapes DuckDuckGo HTML results. Uses custom User-Agent headers to avoid getting blocked. Returns a list of dictionaries (Title, URL, Snippet).
+
+read_webpage(url): Downloads the HTML of a page, removes <script>, <style>, and <noscript> tags using .decompose(), and extracts the readable text.
+
+Crucial Optimization: Truncates the text to 12,000 characters to save tokens and prevent LLM context window overflow.
+
+2. The Planning Phase (create_research_plan)
+Before executing tools, the LLM is asked to generate a numbered list of steps based on the user's request.
+
+Why? It prevents the agent from randomly searching. It acts as a guide.
+
+Note: The plan is a guide, not a strict workflow. The agent still decides which tools to call.
+
+3. The Agent Loop & State Management (agent.py)
+We implemented a manual agent loop using modern Tool Calling APIs (OpenAI/Groq or Ollama format).
+
+Modern Tool Calling: The LLM is provided with JSON schemas of the tools. It returns a structured tool_calls object instead of raw text.
+
+The Loop (for step in range(max_steps)): We replaced the infinite while True with a bounded loop to prevent infinite loops and save API costs.
+
+State Management: We used a global Python list research_notes = [] to act as temporary, task-level state. It stores dictionaries containing source, finding, evidence, and verified.
+
+Context Bloat Prevention: Instead of sending full web pages back to the LLM, we only send the distilled notes. This drastically reduces token usage.
+
+4. Evidence Verification (The "LLM-as-a-Judge" Pattern)
+LLMs often exaggerate facts or hallucinate. To solve this, we added a verifier.
+
+The Problem: An LLM might say "AI will replace 90% of developers" based on an article that just says "AI is automating tasks."
+
+The Solution (verify_finding):
+
+We prompt the LLM with the source, finding, and evidence.
+
+We force the LLM to output strict JSON ({"supported": true/false, "explanation": "..."}).
+
+If supported: true, Python automatically calls mark_node_verified() to update the note's state.
+
+5. Final Report Synthesis (generate_report)
+Once all research is done, the user doesn't want to see raw JSON dictionaries.
+
+The generate_report(user_request, verified_nodes) function takes the verified notes, formats them into a clean text block, and asks the LLM to write a professional report.
+
+The report is forced into a specific structure: Executive Summary, Introduction, Key Findings, Analysis, Limitations, Conclusion, Sources.
+
+⚠️ Real-World Debugging & LLM Limitations
+During development, we encountered several real-world challenges:
+
+Model Size Matters: Testing with qwen3:1.7b failed. The model hallucinated fake URLs and skipped reading web pages. Upgrading to qwen3:4b fixed the behavior. Small models (<3B) lack the cognitive capacity for complex multi-step tool calling.
+
+The "Smart Bypass": Sometimes intelligent models (like Llama 3) read one page and decide they have enough info to write the final answer, skipping the note-taking and verification tools.
+
+State-Based Enforcement: Relying on prompts is not enough. We implemented flags (search_done, read_done) to force the agent back into the loop if it tried to skip mandatory steps like reading a webpage.
+
+💡 Core Learnings & Interview Takeaways
+The Golden Rule of AI Agents: An AI Agent is a combination of LLM (Brain/Reasoning) and Python (Body/Execution). The LLM decides what to do, but Python controls the loop, manages state, and executes the tools safely.
+
+State vs. Memory: The research_notes list is State (temporary, dies when the script ends). It is not Memory (which persists in a database like SQLite).
+
+Prompt Engineering: Using format="json" or strict schemas forces the LLM to output parsable data, which Python can easily process.
+
+Learning vs. Production: This is a learning implementation. A real production system requires retries, rate limiting, logging (Observability), prompt injection defense, and persistent storage.
+
+📊 Final Agent Workflow Diagram
+text
+[User Request]
+      │
+      ▼
+[Planner] ───────► Generates Research Plan
+      │
+      ▼
+[Agent Loop] ────► Decides Tool Calls (Search, Read, Save Notes)
+      │
+      ▼
+[Verifier] ──────► LLM-as-a-Judge (Checks Evidence vs. Finding)
+      │
+      ▼
+[Verified State] ► Stores Only True Findings
+      │
+      ▼
+[Synthesizer] ───► Generates Final Markdown Report

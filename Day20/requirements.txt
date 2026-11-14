@@ -1,0 +1,11 @@
+fastapi[standard]
+langchain
+langchain-ollama
+python-dotenv
+httpx
+langchain_mcp_adapters
+langchain_community
+uvicorn
+tenacity
+faiss-cpu
+fastmcp 

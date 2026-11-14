@@ -65,8 +65,7 @@ What if a tool fails (e.g., MCP Server is down)?
 ### The Dynamic `parse_decision` Function (`loop.py`)
 LLMs are unpredictable. Sometimes they format the output perfectly; sometimes they put TASK and TOOL on the same line. We built a robust parser to handle this:
 
-```python
-def parse_decision(decision):
+    def parse_decision(decision):
     task = None
     tool = None
 
